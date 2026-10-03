@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conditions Dialog Mockups</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root {
+	--bg: #0d1117; --panel: #161c26; --panel2: #1d2532; --line: #2c3646; --text: #e6e9ef; --muted: #8b95a7;
+	--accent: #3b82c4; --accent2: #2a6aa3; --danger: #b8443c; --ok: #3fae5a; --chip: #243042;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+.page { max-width: 980px; margin: 0 auto; padding: 24px 16px 60px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+.intro { color: var(--muted); margin: 0 0 22px; }
+.variant-title { font-size: 17px; margin: 34px 0 8px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.variant-title .tag { background: var(--chip); color: var(--muted); border-radius: 10px; padding: 1px 9px; font-size: 12px; }
+.idea { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
+.modal { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+.mh { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--panel2); border-bottom: 1px solid var(--line); }
+.mh h2 { font-size: 18px; margin: 0; font-weight: 600; flex: 1; }
+.mh code, .var { background: #3a1d22; color: #ff8a8a; border-radius: 4px; padding: 1px 6px; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
+.mb { padding: 16px 18px; }
+.mf { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-top: 1px solid var(--line); background: var(--panel2); }
+.mf .grow { flex: 1; }
+.btn { border: 1px solid var(--line); background: #222b39; color: var(--text); border-radius: 5px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: #46556c; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.link { background: none; border-color: transparent; color: var(--muted); }
+.btn.link:hover { color: var(--text); }
+.btn.add { border-style: dashed; color: var(--muted); width: 100%; justify-content: center; padding: 9px; }
+.icon-btn { width: 30px; height: 30px; border-radius: 5px; border: 1px solid transparent; background: none; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: #222b39; color: var(--text); border-color: var(--line); }
+.icon-btn.del:hover { color: #ff7b72; }
+select, input[type=number], input[type=text] { background: #0f141c; color: var(--text); border: 1px solid var(--line); border-radius: 5px; padding: 5px 8px; font: inherit; font-size: 14px; }
+input[type=number] { width: 5.5em; }
+.swatch { width: 46px; height: 32px; border-radius: 6px; border: 2px solid rgba(255,255,255,.25); cursor: pointer; flex: none; }
+.swatch.big { width: 64px; height: 40px; }
+.sample { font-family: ui-monospace, Menlo, monospace; font-weight: 700; font-size: 20px; background: #05070a; border-radius: 4px; padding: 2px 10px; min-width: 4.5em; text-align: center; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.dropdown { position: relative; display: inline-block; }
+.menu { position: absolute; right: 0; top: 34px; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; min-width: 230px; padding: 4px 0; z-index: 5; box-shadow: 0 8px 20px rgba(0,0,0,.4); display: none; }
+.menu.open { display: block; }
+.menu a { display: flex; gap: 8px; align-items: center; padding: 7px 12px; color: var(--text); text-decoration: none; font-size: 14px; }
+.menu a:hover { background: #26303f; }
+.menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+
+/* ---- Variant A: colour first ---- */
+.a-rule { display: grid; grid-template-columns: 22px auto 1fr auto auto; align-items: center; gap: 10px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 7px; margin-bottom: 8px; background: #121822; }
+.a-rule.match { border-color: var(--ok); box-shadow: 0 0 0 1px var(--ok) inset; }
+.a-rule .handle { color: #4a566a; cursor: grab; }
+.a-cond { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.a-arrow { color: var(--muted); }
+.a-else { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 42px; color: var(--muted); font-size: 14px; }
+.a-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.a-top .grow { flex: 1; }
+.pill { background: var(--chip); border-radius: 12px; padding: 2px 10px; font-size: 13px; color: var(--muted); }
+.adv { grid-column: 2 / -1; display: none; gap: 14px; flex-wrap: wrap; padding-top: 6px; font-size: 13px; color: var(--muted); }
+.adv.open { display: flex; }
+.adv label { display: flex; gap: 6px; align-items: center; }
+.adv input[type=number] { width: 4.5em; }
+.try { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+
+/* ---- Variant B: preview first ---- */
+.b-hero { display: flex; align-items: center; gap: 16px; background: #05070a; border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; flex-wrap: wrap; }
+.b-hero .sample { font-size: 30px; background: none; padding: 0; min-width: 5em; text-align: left; }
+.b-hero .grow { flex: 1; min-width: 180px; }
+.b-hero input[type=range] { width: 100%; }
+.b-table { width: 100%; border-collapse: collapse; }
+.b-table td { padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.b-table tr.match td { background: rgba(63,174,90,.12); }
+.b-table .if { color: var(--muted); width: 2.2em; }
+.b-table .tick { width: 22px; color: var(--ok); }
+.b-table .acts { text-align: right; white-space: nowrap; }
+
+/* ---- Variant C: colour bands ---- */
+.c-bar { display: flex; height: 54px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); position: relative; }
+.c-band { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; position: relative; color: rgba(0,0,0,.75); font-weight: 600; font-size: 14px; }
+.c-band:hover { filter: brightness(1.08); }
+.c-band .fa-pen { opacity: .55; font-size: 12px; }
+.c-marker { position: absolute; top: -2px; width: 0; height: 0; transform: translateX(-7px); border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid #fff; filter: drop-shadow(0 1px 1px #000); transition: left .15s; }
+.c-thresholds { display: flex; margin-top: 8px; height: 56px; }
+.c-thresholds .slot { flex: 1; position: relative; }
+.c-thresholds .th { position: absolute; left: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.c-thresholds .th input { width: 5em; text-align: center; }
+.c-thresholds .th .incl { font-size: 11px; color: var(--muted); }
+.c-legend { display: flex; gap: 8px; margin: 4px 0 6px; flex-wrap: wrap; }
+.c-bool { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.c-bool .card { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 12px; background: #121822; }
+.c-bool .card .sample { font-size: 18px; }
+.section-label { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 8px; }
+.note { background: #12202f; border: 1px solid #22405f; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #a9c3dd; margin-top: 14px; }
+.compare { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+.compare th, .compare td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; vertical-align: top; }
+.compare th { color: var(--muted); font-weight: 600; }
+@media (max-width: 640px) {
+	.a-rule { grid-template-columns: 1fr auto; }
+	.a-rule .handle { display: none; }
+	.c-band .lbl { display: none; }
+}
+body.only .page > *:not(.shown) { display: none; }
+body.only .page { padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="page">
+	<h1>Conditions dialog – three redesigns</h1>
+	<p class="intro">Mockups for Allsky's overlay conditions (AllskyTeam/allsky#5290). Same features as the current dialog; the example is a <span class="var">${GAIN}</span> field. Type in <em>Try a value</em> to see which rule is used.</p>
+
+	<!-- ================= Variant A ================= -->
+	<section id="a">
+	<div class="variant-title"><span>A · Colour first</span><span class="tag">rules as rows, colour is the big control</span></div>
+	<p class="idea">Each rule reads like a sentence: <em>when value &lt; 100 → green</em>. The colour swatch and a sample of the value are the largest things in a row; extra styles (stroke, opacity, font) are behind a small icon. Rule sets move into one menu. "+ and" becomes the operator <em>between</em>.</p>
+	<div class="modal">
+		<div class="mh"><i class="fa-solid fa-code-branch muted"></i><h2>Conditions for <code>${GAIN}</code></h2>
+			<div class="dropdown"><button class="btn" data-menu="a-menu"><i class="fa-regular fa-bookmark"></i> Rule set: This field only <i class="fa-solid fa-caret-down"></i></button>
+				<div class="menu" id="a-menu"><a href="#"><i class="fa-solid fa-check"></i> This field only</a><a href="#"><i class="fa-regular fa-bookmark"></i> Gain colours</a><hr><a href="#"><i class="fa-regular fa-floppy-disk"></i> Save these rules as a rule set…</a><a href="#"><i class="fa-regular fa-copy"></i> Copy a rule set from another overlay…</a></div></div>
+		</div>
+		<div class="mb">
+			<div class="a-top"><span class="pill">Number</span><span class="muted small">The first matching rule is used.</span></div>
+			<div id="a-rules"></div>
+			<button class="btn add" id="a-add"><i class="fa-solid fa-plus"></i> Add rule</button>
+			<div class="a-else"><i class="fa-solid fa-arrow-turn-down fa-rotate-90"></i> Otherwise: the field's own style</div>
+			<div class="try"><strong>Try a value</strong><input type="number" class="tryval" value="150"><span class="sample" id="a-sample">150</span><span class="muted small" id="a-which"></span></div>
+		</div>
+		<div class="mf"><button class="btn link"><i class="fa-regular fa-trash-can"></i> Remove conditions</button><span class="grow"></span><button class="btn">Cancel</button><button class="btn primary"><i class="fa-solid fa-check"></i> Apply</button></div>
+	</div>
+	</section>
+
+	<!-- ================= Variant B ================= -->
+	<section id="b">
+	<div class="variant-title"><span>B · Preview first</span><span class="tag">see the result, then the rules</span></div>
+	<p class="idea">The top of the dialog shows the field as it will look on the image, with a slider to try values. Below, a compact table of rules; the rule that matches is highlighted with a tick, so the order ("first match wins") is visible instead of explained.</p>
+	<div class="modal">
+		<div class="mh"><i class="fa-solid fa-code-branch muted"></i><h2>Conditions for <code>${GAIN}</code></h2><span class="pill">Number</span></div>
+		<div class="mb">
+			<div class="b-hero">
+				<span class="sample" id="b-sample">150</span>
+				<div class="grow"><div class="muted small">Try a value</div><input type="range" min="0" max="300" value="150" id="b-range"></div>
+				<input type="number" class="tryval" value="150" id="b-num">
+			</div>
+			<table class="b-table" id="b-table"></table>
+			<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+				<button class="btn" id="b-add"><i class="fa-solid fa-plus"></i> Add rule</button>
+				<span style="flex:1"></span>
+				<div class="dropdown"><button class="btn link" data-menu="b-menu"><i class="fa-regular fa-bookmark"></i> Rule sets <i class="fa-solid fa-caret-down"></i></button>
+					<div class="menu" id="b-menu"><a href="#"><i class="fa-regular fa-bookmark"></i> Use rule set: Gain colours</a><hr><a href="#"><i class="fa-regular fa-floppy-disk"></i> Save as rule set…</a><a href="#"><i class="fa-regular fa-copy"></i> Copy from another overlay…</a></div></div>
+			</div>
+		</div>
+		<div class="mf"><button class="btn link"><i class="fa-regular fa-trash-can"></i> Remove conditions</button><span class="grow"></span><button class="btn">Cancel</button><button class="btn primary"><i class="fa-solid fa-check"></i> Apply</button></div>
+	</div>
+	</section>
+
+	<!-- ================= Variant C ================= -->
+	<section id="c">
+	<div class="variant-title"><span>C · Colour bands</span><span class="tag">for numbers: thresholds like a gauge</span></div>
+	<p class="idea">Most number conditions are ranges (cold / normal / hot). Here the whole range is one bar: click a band to pick its colour, type the limits between bands. No operators, no "and", no ordering. Yes/No variables get two cards; text variables would use the rows from A.</p>
+	<div class="modal">
+		<div class="mh"><i class="fa-solid fa-code-branch muted"></i><h2>Conditions for <code>${GAIN}</code></h2>
+			<div class="dropdown"><button class="icon-btn" title="Rule sets" data-menu="c-menu"><i class="fa-regular fa-bookmark"></i></button>
+				<div class="menu" id="c-menu"><a href="#"><i class="fa-regular fa-bookmark"></i> Use rule set: Gain colours</a><hr><a href="#"><i class="fa-regular fa-floppy-disk"></i> Save as rule set…</a><a href="#"><i class="fa-regular fa-copy"></i> Copy from another overlay…</a></div></div>
+		</div>
+		<div class="mb">
+			<div class="section-label">Number · colour by range</div>
+			<div class="c-bar" id="c-bar"></div>
+			<div class="c-thresholds" id="c-th"></div>
+			<div class="c-legend">
+				<button class="btn" id="c-split"><i class="fa-solid fa-plus"></i> Add band</button>
+				<button class="btn" id="c-merge"><i class="fa-solid fa-minus"></i> Remove band</button>
+				<span class="muted small" style="align-self:center">A limit belongs to the band on its right (≥).</span>
+			</div>
+			<div class="try"><strong>Try a value</strong><input type="number" class="tryval" value="150" id="c-num"><span class="sample" id="c-sample">150</span></div>
+			<div class="section-label" style="margin-top:20px">Yes / No variables would look like this</div>
+			<div class="c-bool">
+				<div class="card"><div class="swatch big" style="background:#3fae5a"></div><div><div class="muted small">When yes</div><span class="sample" style="color:#3fae5a">ON</span></div></div>
+				<div class="card"><div class="swatch big" style="background:#e5534b"></div><div><div class="muted small">When no</div><span class="sample" style="color:#e5534b">OFF</span></div></div>
+			</div>
+		</div>
+		<div class="mf"><button class="btn link"><i class="fa-regular fa-trash-can"></i> Remove conditions</button><span class="grow"></span><button class="btn">Cancel</button><button class="btn primary"><i class="fa-solid fa-check"></i> Apply</button></div>
+	</div>
+	</section>
+
+	<section id="cmp">
+	<div class="variant-title"><span>Comparison</span></div>
+	<table class="compare">
+		<tr><th></th><th>A · Colour first</th><th>B · Preview first</th><th>C · Colour bands</th></tr>
+		<tr><td>Main action</td><td>Big swatch per rule</td><td>Live preview at the top</td><td>Click a band</td></tr>
+		<tr><td>Ranges (11 &lt; x ≤ 12)</td><td>Operator "between"</td><td>Operator "between"</td><td>Just a band</td></tr>
+		<tr><td>Order of rules</td><td>Drag handle</td><td>Arrows, match is ticked</td><td>Not needed</td></tr>
+		<tr><td>Text / Yes-No</td><td>Same rows</td><td>Same table</td><td>Needs rows (A) / cards</td></tr>
+		<tr><td>Change to the saved format</td><td>None</td><td>None</td><td>None (bands are saved as rules)</td></tr>
+	</table>
+	</section>
+</div>
+
+<script>
+const OPS = { '<': (v, a) => v < a, '≤': (v, a) => v <= a, '>': (v, a) => v > a, '≥': (v, a) => v >= a, '=': (v, a) => v === a, 'between': (v, a, b) => v >= a && v < b };
+const rules = [
+	{ op: '<', a: 100, b: null, colour: '#3fae5a' },
+	{ op: 'between', a: 100, b: 200, colour: '#e3b341' },
+	{ op: '≥', a: 200, b: null, colour: '#e5534b' }
+];
+const FIELD_COLOUR = '#ffffff';
+function match(v) { for (let i = 0; i < rules.length; i++) { const r = rules[i]; if (OPS[r.op](v, r.a, r.b)) return i; } return -1; }
+function opSelect(r) {
+	return '<select>' + Object.keys(OPS).map(o => '<option' + (o === r.op ? ' selected' : '') + '>' + o + '</option>').join('') + '</select>';
+}
+function condHTML(r) {
+	let h = '<span class="muted">When value</span>' + opSelect(r) + '<input type="number" value="' + r.a + '">';
+	if (r.op === 'between') h += '<span class="muted">and under</span><input type="number" value="' + r.b + '">';
+	return h;
+}
+function renderA(v) {
+	const m = match(v);
+	document.getElementById('a-rules').innerHTML = rules.map((r, i) =>
+		'<div class="a-rule' + (i === m ? ' match' : '') + '"><i class="fa-solid fa-grip-vertical handle" title="Drag to change the order"></i>' +
+		'<div class="a-cond">' + condHTML(r) + '</div>' +
+		'<div style="display:flex;align-items:center;gap:10px"><i class="fa-solid fa-arrow-right a-arrow"></i><div class="swatch" style="background:' + r.colour + '" title="Colour"></div><span class="sample" style="color:' + r.colour + '">' + (r.op === '<' ? r.a - 20 : r.op === 'between' ? r.a + 50 : r.a + 50) + '</span></div>' +
+		'<button class="icon-btn" title="Stroke, opacity, font" data-adv="' + i + '"><i class="fa-solid fa-sliders"></i></button>' +
+		'<button class="icon-btn del" title="Delete rule"><i class="fa-regular fa-trash-can"></i></button>' +
+		'<div class="adv" id="adv-' + i + '"><label><input type="checkbox"> Stroke <span class="swatch" style="width:26px;height:20px;background:#000"></span></label><label>Width <input type="number" value="2"></label><label>Opacity <input type="number" value="1" step="0.1"></label><label>Font <select><option>(field\'s own)</option><option>Arial</option></select></label><label>Size <input type="number" placeholder="–"></label></div>' +
+		'</div>').join('');
+	const s = document.getElementById('a-sample'); s.textContent = v; s.style.color = m >= 0 ? rules[m].colour : FIELD_COLOUR;
+	document.getElementById('a-which').textContent = m >= 0 ? 'uses rule ' + (m + 1) : 'no rule matches: field\'s own style';
+}
+function renderB(v) {
+	const m = match(v);
+	document.getElementById('b-table').innerHTML = rules.map((r, i) =>
+		'<tr class="' + (i === m ? 'match' : '') + '"><td class="tick">' + (i === m ? '<i class="fa-solid fa-check"></i>' : '') + '</td><td class="if">If</td><td><div class="a-cond">' + opSelect(r) + '<input type="number" value="' + r.a + '">' + (r.op === 'between' ? '<span class="muted">and under</span><input type="number" value="' + r.b + '">' : '') + '</div></td>' +
+		'<td><div class="swatch" style="background:' + r.colour + '"></div></td>' +
+		'<td class="acts"><button class="icon-btn" title="Stroke, opacity, font"><i class="fa-solid fa-sliders"></i></button><button class="icon-btn" title="Move up"><i class="fa-solid fa-arrow-up"></i></button><button class="icon-btn" title="Move down"><i class="fa-solid fa-arrow-down"></i></button><button class="icon-btn del" title="Delete"><i class="fa-regular fa-trash-can"></i></button></td></tr>').join('') +
+		'<tr class="' + (m < 0 ? 'match' : '') + '"><td class="tick">' + (m < 0 ? '<i class="fa-solid fa-check"></i>' : '') + '</td><td class="if muted">Else</td><td class="muted">the field\'s own style</td><td><div class="swatch" style="background:' + FIELD_COLOUR + ';opacity:.5"></div></td><td></td></tr>';
+	const s = document.getElementById('b-sample'); s.textContent = v; s.style.color = m >= 0 ? rules[m].colour : FIELD_COLOUR;
+}
+const bands = [{ colour: '#3fae5a', label: 'low' }, { colour: '#e3b341', label: 'normal' }, { colour: '#e5534b', label: 'high' }];
+let limits = [100, 200];
+const C_MIN = 0, C_MAX = 300;
+function bandFor(v) { let i = 0; while (i < limits.length && v >= limits[i]) i++; return i; }
+function renderC(v) {
+	const bar = document.getElementById('c-bar');
+	const edges = [C_MIN, ...limits, C_MAX];
+	bar.innerHTML = bands.map((b, i) => '<div class="c-band" style="background:' + b.colour + ';flex:' + Math.max(edges[i + 1] - edges[i], 1) + '" title="Click to change the colour"><span class="lbl">' + (i === 0 ? '< ' + limits[0] : i === bands.length - 1 ? '≥ ' + limits[i - 1] : limits[i - 1] + ' – ' + limits[i]) + '</span><i class="fa-solid fa-pen"></i></div>').join('') +
+		'<div class="c-marker" style="left:' + (Math.min(Math.max((v - C_MIN) / (C_MAX - C_MIN), 0), 1) * 100) + '%"></div>';
+	const th = document.getElementById('c-th');
+	th.innerHTML = bands.map((b, i) => '<div class="slot" style="flex:' + Math.max(edges[i + 1] - edges[i], 1) + '">' + (i > 0 ? '<div class="th"><input type="number" value="' + limits[i - 1] + '" data-lim="' + (i - 1) + '"><span class="incl">limit</span></div>' : '') + '</div>').join('');
+	th.querySelectorAll('input').forEach(inp => inp.addEventListener('change', e => { limits[+e.target.dataset.lim] = +e.target.value; limits.sort((x, y) => x - y); renderC(+document.getElementById('c-num').value); }));
+	const s = document.getElementById('c-sample'); s.textContent = v; s.style.color = bands[bandFor(v)].colour;
+}
+function renderAll(v) { renderA(v); renderB(v); renderC(v); }
+document.querySelectorAll('.tryval').forEach(el => el.addEventListener('input', e => {
+	const v = +e.target.value; document.querySelectorAll('.tryval').forEach(o => { if (o !== e.target) o.value = v; });
+	document.getElementById('b-range').value = v; renderAll(v);
+}));
+document.getElementById('b-range').addEventListener('input', e => { const v = +e.target.value; document.querySelectorAll('.tryval').forEach(o => o.value = v); renderAll(v); });
+document.addEventListener('click', e => {
+	const m = e.target.closest('[data-menu]');
+	document.querySelectorAll('.menu.open').forEach(x => { if (!m || x.id !== m.dataset.menu) x.classList.remove('open'); });
+	if (m) { document.getElementById(m.dataset.menu).classList.toggle('open'); e.preventDefault(); }
+	const a = e.target.closest('[data-adv]');
+	if (a) document.getElementById('adv-' + a.dataset.adv).classList.toggle('open');
+	if (e.target.closest('#a-add') || e.target.closest('#b-add')) { rules.push({ op: '>', a: 250, b: null, colour: '#58a6ff' }); renderAll(+document.querySelector('.tryval').value); }
+	if (e.target.closest('#c-split') && bands.length < 6) { const last = limits[limits.length - 1] ?? C_MIN; limits.push(Math.min(last + 50, C_MAX - 10)); bands.push({ colour: '#58a6ff' }); renderC(+document.getElementById('c-num').value); }
+	if (e.target.closest('#c-merge') && bands.length > 2) { limits.pop(); bands.pop(); renderC(+document.getElementById('c-num').value); }
+	if (e.target.closest('a[href="#"]')) e.preventDefault();
+});
+const only = location.hash.slice(1);
+if (['a', 'b', 'c', 'cmp'].includes(only)) { document.body.classList.add('only'); document.getElementById(only).classList.add('shown'); }
+if (location.search.includes('adv')) setTimeout(() => document.querySelector('[data-adv="1"]').click(), 0);
+renderAll(150);
+</script>
+</body>
+</html>
