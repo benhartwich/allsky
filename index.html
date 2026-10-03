@@ -113,7 +113,7 @@ body.only .page { padding-top: 12px; }
 	<!-- ================= Variant A ================= -->
 	<section id="a">
 	<div class="variant-title"><span>A · Colour first</span><span class="tag">rules as rows, colour is the big control</span></div>
-	<p class="idea">Each rule reads like a sentence: <em>when value &lt; 100 → green</em>. The colour swatch and a sample of the value are the largest things in a row; extra styles (stroke, opacity, font) are behind a small icon. Rule sets move into one menu. "+ and" becomes the operator <em>between</em>.</p>
+	<p class="idea">Each rule reads like a sentence: <em>when value &lt; 100 → green</em>. The colour swatch and a sample of the value are the largest things in a row; extra styles (stroke, opacity, font) are behind a small icon. Rule sets move into one menu. A second condition, e.g. <em>≥ 100 and ≤ 200</em>, shows its own symbol, so it's always clear whether a limit is included.</p>
 	<div class="modal">
 		<div class="mh"><i class="fa-solid fa-code-branch muted"></i><h2>Conditions for <code>${GAIN}</code></h2>
 			<div class="dropdown"><button class="btn" data-menu="a-menu"><i class="fa-regular fa-bookmark"></i> Rule set: This field only <i class="fa-solid fa-caret-down"></i></button>
@@ -170,7 +170,7 @@ body.only .page { padding-top: 12px; }
 			<div class="c-legend">
 				<button class="btn" id="c-split"><i class="fa-solid fa-plus"></i> Add band</button>
 				<button class="btn" id="c-merge"><i class="fa-solid fa-minus"></i> Remove band</button>
-				<span class="muted small" style="align-self:center">A limit belongs to the band on its right (≥).</span>
+				<span class="muted small" style="align-self:center">Each limit belongs to the band on its right, as the labels show.</span>
 			</div>
 			<div class="try"><strong>Try a value</strong><input type="number" class="tryval" value="150" id="c-num"><span class="sample" id="c-sample">150</span></div>
 			<div class="section-label" style="margin-top:20px">Yes / No variables would look like this</div>
@@ -188,7 +188,7 @@ body.only .page { padding-top: 12px; }
 	<table class="compare">
 		<tr><th></th><th>A · Colour first</th><th>B · Preview first</th><th>C · Colour bands</th></tr>
 		<tr><td>Main action</td><td>Big swatch per rule</td><td>Live preview at the top</td><td>Click a band</td></tr>
-		<tr><td>Ranges (11 &lt; x ≤ 12)</td><td>Operator "between"</td><td>Operator "between"</td><td>Just a band</td></tr>
+		<tr><td>Ranges (11 &lt; x ≤ 12)</td><td>Two symbols: &gt; 11 and ≤ 12</td><td>Two symbols: &gt; 11 and ≤ 12</td><td>A band, labelled with symbols</td></tr>
 		<tr><td>Order of rules</td><td>Drag handle</td><td>Arrows, match is ticked</td><td>Not needed</td></tr>
 		<tr><td>Text / Yes-No</td><td>Same rows</td><td>Same table</td><td>Needs rows (A) / cards</td></tr>
 		<tr><td>Change to the saved format</td><td>None</td><td>None</td><td>None (bands are saved as rules)</td></tr>
@@ -197,28 +197,33 @@ body.only .page { padding-top: 12px; }
 </div>
 
 <script>
-const OPS = { '<': (v, a) => v < a, '≤': (v, a) => v <= a, '>': (v, a) => v > a, '≥': (v, a) => v >= a, '=': (v, a) => v === a, 'between': (v, a, b) => v >= a && v < b };
+const OPS = { '<': (v, a) => v < a, '≤': (v, a) => v <= a, '>': (v, a) => v > a, '≥': (v, a) => v >= a, '=': (v, a) => v === a };
 const rules = [
 	{ op: '<', a: 100, b: null, colour: '#3fae5a' },
-	{ op: 'between', a: 100, b: 200, colour: '#e3b341' },
-	{ op: '≥', a: 200, b: null, colour: '#e5534b' }
+	{ op: '≥', a: 100, op2: '≤', b: 200, colour: '#e3b341' },
+	{ op: '>', a: 200, b: null, colour: '#e5534b' }
 ];
 const FIELD_COLOUR = '#ffffff';
-function match(v) { for (let i = 0; i < rules.length; i++) { const r = rules[i]; if (OPS[r.op](v, r.a, r.b)) return i; } return -1; }
-function opSelect(r) {
-	return '<select>' + Object.keys(OPS).map(o => '<option' + (o === r.op ? ' selected' : '') + '>' + o + '</option>').join('') + '</select>';
+function match(v) { for (let i = 0; i < rules.length; i++) { const r = rules[i]; if (OPS[r.op](v, r.a) && (!r.op2 || OPS[r.op2](v, r.b))) return i; } return -1; }
+function opSelect(op) {
+	return '<select>' + Object.keys(OPS).map(o => '<option' + (o === op ? ' selected' : '') + '>' + o + '</option>').join('') + '</select>';
+}
+// A rule has one or two conditions; each shows its own symbol, so it's clear whether a limit is included.
+function condsHTML(r) {
+	let h = opSelect(r.op) + '<input type="number" value="' + r.a + '">';
+	if (r.op2) h += '<span class="muted">and</span>' + opSelect(r.op2) + '<input type="number" value="' + r.b + '">';
+	else h += '<button class="icon-btn" title="Add a second condition, e.g. ≤ 200"><i class="fa-solid fa-plus"></i></button>';
+	return h;
 }
 function condHTML(r) {
-	let h = '<span class="muted">When value</span>' + opSelect(r) + '<input type="number" value="' + r.a + '">';
-	if (r.op === 'between') h += '<span class="muted">and under</span><input type="number" value="' + r.b + '">';
-	return h;
+	return '<span class="muted">When value</span>' + condsHTML(r);
 }
 function renderA(v) {
 	const m = match(v);
 	document.getElementById('a-rules').innerHTML = rules.map((r, i) =>
 		'<div class="a-rule' + (i === m ? ' match' : '') + '"><i class="fa-solid fa-grip-vertical handle" title="Drag to change the order"></i>' +
 		'<div class="a-cond">' + condHTML(r) + '</div>' +
-		'<div style="display:flex;align-items:center;gap:10px"><i class="fa-solid fa-arrow-right a-arrow"></i><div class="swatch" style="background:' + r.colour + '" title="Colour"></div><span class="sample" style="color:' + r.colour + '">' + (r.op === '<' ? r.a - 20 : r.op === 'between' ? r.a + 50 : r.a + 50) + '</span></div>' +
+		'<div style="display:flex;align-items:center;gap:10px"><i class="fa-solid fa-arrow-right a-arrow"></i><div class="swatch" style="background:' + r.colour + '" title="Colour"></div><span class="sample" style="color:' + r.colour + '">' + (r.op === '<' ? r.a - 20 : r.a + 50) + '</span></div>' +
 		'<button class="icon-btn" title="Stroke, opacity, font" data-adv="' + i + '"><i class="fa-solid fa-sliders"></i></button>' +
 		'<button class="icon-btn del" title="Delete rule"><i class="fa-regular fa-trash-can"></i></button>' +
 		'<div class="adv" id="adv-' + i + '"><label><input type="checkbox"> Stroke <span class="swatch" style="width:26px;height:20px;background:#000"></span></label><label>Width <input type="number" value="2"></label><label>Opacity <input type="number" value="1" step="0.1"></label><label>Font <select><option>(field\'s own)</option><option>Arial</option></select></label><label>Size <input type="number" placeholder="–"></label></div>' +
@@ -229,7 +234,7 @@ function renderA(v) {
 function renderB(v) {
 	const m = match(v);
 	document.getElementById('b-table').innerHTML = rules.map((r, i) =>
-		'<tr class="' + (i === m ? 'match' : '') + '"><td class="tick">' + (i === m ? '<i class="fa-solid fa-check"></i>' : '') + '</td><td class="if">If</td><td><div class="a-cond">' + opSelect(r) + '<input type="number" value="' + r.a + '">' + (r.op === 'between' ? '<span class="muted">and under</span><input type="number" value="' + r.b + '">' : '') + '</div></td>' +
+		'<tr class="' + (i === m ? 'match' : '') + '"><td class="tick">' + (i === m ? '<i class="fa-solid fa-check"></i>' : '') + '</td><td class="if">If</td><td><div class="a-cond">' + condsHTML(r) + '</div></td>' +
 		'<td><div class="swatch" style="background:' + r.colour + '"></div></td>' +
 		'<td class="acts"><button class="icon-btn" title="Stroke, opacity, font"><i class="fa-solid fa-sliders"></i></button><button class="icon-btn" title="Move up"><i class="fa-solid fa-arrow-up"></i></button><button class="icon-btn" title="Move down"><i class="fa-solid fa-arrow-down"></i></button><button class="icon-btn del" title="Delete"><i class="fa-regular fa-trash-can"></i></button></td></tr>').join('') +
 		'<tr class="' + (m < 0 ? 'match' : '') + '"><td class="tick">' + (m < 0 ? '<i class="fa-solid fa-check"></i>' : '') + '</td><td class="if muted">Else</td><td class="muted">the field\'s own style</td><td><div class="swatch" style="background:' + FIELD_COLOUR + ';opacity:.5"></div></td><td></td></tr>';
@@ -242,7 +247,7 @@ function bandFor(v) { let i = 0; while (i < limits.length && v >= limits[i]) i++
 function renderC(v) {
 	const bar = document.getElementById('c-bar');
 	const edges = [C_MIN, ...limits, C_MAX];
-	bar.innerHTML = bands.map((b, i) => '<div class="c-band" style="background:' + b.colour + ';flex:' + Math.max(edges[i + 1] - edges[i], 1) + '" title="Click to change the colour"><span class="lbl">' + (i === 0 ? '< ' + limits[0] : i === bands.length - 1 ? '≥ ' + limits[i - 1] : limits[i - 1] + ' – ' + limits[i]) + '</span><i class="fa-solid fa-pen"></i></div>').join('') +
+	bar.innerHTML = bands.map((b, i) => '<div class="c-band" style="background:' + b.colour + ';flex:' + Math.max(edges[i + 1] - edges[i], 1) + '" title="Click to change the colour"><span class="lbl">' + (i === 0 ? 'GAIN < ' + limits[0] : i === bands.length - 1 ? 'GAIN ≥ ' + limits[i - 1] : limits[i - 1] + ' ≤ GAIN < ' + limits[i]) + '</span><i class="fa-solid fa-pen"></i></div>').join('') +
 		'<div class="c-marker" style="left:' + (Math.min(Math.max((v - C_MIN) / (C_MAX - C_MIN), 0), 1) * 100) + '%"></div>';
 	const th = document.getElementById('c-th');
 	th.innerHTML = bands.map((b, i) => '<div class="slot" style="flex:' + Math.max(edges[i + 1] - edges[i], 1) + '">' + (i > 0 ? '<div class="th"><input type="number" value="' + limits[i - 1] + '" data-lim="' + (i - 1) + '"><span class="incl">limit</span></div>' : '') + '</div>').join('');
